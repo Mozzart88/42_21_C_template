@@ -6,7 +6,21 @@ Folders:
 	☐ .vscode
 	☐ .mozz
 Makefile:
+	☐ Undo last commit
 	☐ Clone https://github.com/Mozzart88/21-c-debugger-vscode.git ot .vscode
-	
+	☐ Add scripts to shell PATH
+	☐ Clone submodules
+	☐ Rename Header file with progict name and all links
+	☐ Rename Readme header
+	☐ Commit like intial commit
+	☐ Push to GitHub to rebase
+	☐ Add 42/21 repo to remote ???
+	☐ UNILSTALL PROJECT
+Git submodules:
+	☐ Don't appeare in template
+	☐ 
+Readme:
+	☐ Install instruction
+
 
 

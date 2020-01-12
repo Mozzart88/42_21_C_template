@@ -6,7 +6,7 @@
 #    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 04:05:15 by mozzart          ###   ########.fr        #
+#    Updated: 2020/01/12 04:13:56 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ all: gitreset clonews setscripts clonesubmod
 
 gitreset:
 	@echo "Undo initial commit"
-	@git reset ~HEAD
+	@git reset HEAD
 
 clonews:
 	@echo "Cloning VSCode settins"
-	@git clone https://github.com/Mozzart88/21-c-debugger-vscode.git $(VS_DIR)
+	@git -C .. clone https://github.com/Mozzart88/21-c-debugger-vscode.git $(VS_DIR)
 	@rm -fr $(VS_DIR)/.git
 
 setscripts:
@@ -44,7 +44,7 @@ setscripts:
 
 clonesubmod:
 	@echo "Cloning submodules"
-	@git submodule update --init
+	@git -C .. submodule update --init
 
 test: setscripts
 

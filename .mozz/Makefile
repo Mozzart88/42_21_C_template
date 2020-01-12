@@ -6,7 +6,7 @@
 #    By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 15:06:00 by tvanessa         ###   ########.fr        #
+#    Updated: 2020/01/12 15:56:49 by tvanessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,17 +27,17 @@ all: gitreset clonews setscripts clonesubmod rename gitcommit
 
 gitreset:
 	@echo "Undo initial commit"
-	@git reset HEAD
+	@git update-ref -d HEAD
 
 clonews:
 	@echo "Cloning VSCode settins"
 	@git -C .. clone https://github.com/Mozzart88/21-c-debugger-vscode.git $(VS_DIR)
-	@rm -fr $(VS_DIR)/.git
+	@rm -fr ../$(VS_DIR)/.git
 	@echo "VSCode settins INSTALLED."
 
 setscripts:
 	@echo "Installing scripts.."
-	@echo "\n# $(shell echo $(PROJ_NAME) | tr '[:lower:]' '[:upper:]')" >> ~/${ZRC}
+	@echo "\n# $(PROJ_NAME_U)" >> ~/${ZRC}
 	@echo $(ZRC_STR) >> ~/$(ZRC)
 	@echo "alias $(PROJ_NAME_L)_valg=\"bash $(MOZZ_DIR)/valg.sh\"" >> $(ZRC)
 	@echo "alias $(PROJ_NAME_L)_build=\"bash $(MOZZ_DIR)/build.sh\"" >> $(ZRC)
@@ -52,19 +52,22 @@ clonesubmod:
 
 rename:
 	@echo "Renaming.."
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../header.h
+	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' ../header.h
 	@mv ../header.h ../$(PROJ_NAME_L).h
-	@sed -i '' 's/header/$(PROJ_NAME_L)/g' header.h
-	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' header.h
-	@sed -i '' 's/header/$(PROJ_NAME_L)/g' main.c
-	@sed -i '' 's/PROJ_NAME/$(PROJ_NAME_L)/g' Makefile
-	@sed -i '' 's/42_21_C_template/$(PROJ_NAME_U)/g' README.md
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../main.c
+	@sed -i '' 's/PROJ_NAME/$(PROJ_NAME_L)/g' ../Makefile
+	@sed -i '' 's/42_21_C_template/$(PROJ_NAME_U)/g' ../README.md
 	@echo "Renaming DONE."
 
 gitcommit:
 	@echo "Stage changes.."
-	@git add .
-	@git commit -m "INITIAL COMMIT"
-	@git push --force
+	@git -C .. add .
+	@git -C .. commit -m "INITIAL COMMIT"
+	@git -C .. push --force
+
+deinstall: 
+	@sed -i '' '/# $(PROJ_NAME_U)$$/,/^/ d' ~/.zshrc
 
 test: setscripts
 

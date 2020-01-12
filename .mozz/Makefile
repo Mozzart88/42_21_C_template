@@ -6,7 +6,7 @@
 #    By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 16:12:56 by tvanessa         ###   ########.fr        #
+#    Updated: 2020/01/12 17:48:48 by tvanessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,11 @@ PROJ_NAME_L =  $(shell echo $(proj) | tr '[:upper:]' '[:lower:]')
 PROJ_NAME_U =  $(shell echo $(proj) | tr '[:lower:]' '[:upper:]')
 endif
 
-all: gitreset clonews setscripts clonesubmod rename gitcommit
+all: gitreset clonews setscripts clonesubmod rename gitcommit cleantodo
+
+cleantodo:
+	@echo "Eraise TODO.."
+	@echo "" > TODO
 
 gitreset:
 	@echo "Undo initial commit"

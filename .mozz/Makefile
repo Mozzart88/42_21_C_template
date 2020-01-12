@@ -6,7 +6,7 @@
 #    By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 15:56:49 by tvanessa         ###   ########.fr        #
+#    Updated: 2020/01/12 16:02:34 by tvanessa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ gitcommit:
 
 deinstall: 
 	@sed -i '' '/# $(PROJ_NAME_U)$$/,/^/ d' ~/.zshrc
+	@rm -rf $(WS_PATH)
 
 test: setscripts
 

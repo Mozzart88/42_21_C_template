@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+         #
+#    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 17:48:48 by tvanessa         ###   ########.fr        #
+#    Updated: 2020/09/15 10:37:25 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ PROJ_NAME_L =  $(shell echo $(proj) | tr '[:upper:]' '[:lower:]')
 PROJ_NAME_U =  $(shell echo $(proj) | tr '[:lower:]' '[:upper:]')
 endif
 
-all: gitreset clonews setscripts clonesubmod rename gitcommit cleantodo
+all: gitreset clonews setscripts clonesubmod rename gitcommit cleantodo mkauthor
 
 cleantodo:
 	@echo "Eraise TODO.."
@@ -69,6 +69,15 @@ gitcommit:
 	@git -C .. add .
 	@git -C .. commit -m "INITIAL COMMIT"
 	@git -C .. push --force
+
+mkauthor:
+ifdef u
+	@echo $(u) > author
+else ifdef user
+	@echo $(user) > author
+else
+	@echo ${USER} > author
+endif
 
 deinstall: 
 	@sed -i '' '/# $(PROJ_NAME_U)$$/,/^$$/ d' ~/.zshrc

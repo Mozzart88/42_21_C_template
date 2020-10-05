@@ -5,63 +5,91 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/09/04 15:27:16 by tvanessa          #+#    #+#              #
-#    Updated: 2020/10/05 23:31:14 by mozzart          ###   ########.fr        #
+#    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
+#    Updated: 2020/10/05 23:55:38 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-debug := 0
+MOZZ_DIR = .mozz
+VS_DIR = .vscode
+ZRC = .zshrc
+WS_PATH = $(shell cd .. && pwd)
+ZRC_STR = "[ -f $(WS_PATH)/$(MOZZ_DIR)/$(ZRC) ] && source $(WS_PATH)/$(MOZZ_DIR)/$(ZRC)"
 
-Fsrcs := fsrcs
-SS := $(shell cat $(Fsrcs))
-FH := fhdr
-CHEADERS := $(shell cat $(FH))
-OBJS := $(SS:.c=.o)
-MAIN := 	shell
-
-
-CC := clang
-GCF := -g3 -Wall -Wextra -Werror
-NAME := PROJ_NAME
-LIBFT := libft
-LIBFTA := libft/libft.a
-CFLAGS := -Wall -Wextra -Werror
-
-# Compiller selection
-ifdef gcc
-CC := gcc
-else ifdef clang
-CC := clang
-else ifdef cc
-CC := $(cc)
+ifndef proj
+$(error Set project name with arg proj proj=project_name)
+else
+PROJ_NAME_L =  $(shell echo $(proj) | tr '[:upper:]' '[:lower:]')
+PROJ_NAME_U =  $(shell echo $(proj) | tr '[:lower:]' '[:upper:]')
 endif
 
-# Debug mode
-ifeq ($(debug), 1)
-CFLAGS := $(GCF)
+all: gitreset clonews setscripts clonesubmod rename mkauthor cleantodo gitcommit
+
+cleantodo:
+	@echo "Eraise TODO.."
+	@echo "" > TODO
+
+gitreset:
+	@echo "Undo initial commit"
+	@git update-ref -d HEAD
+
+clonews:
+	@echo "Cloning VSCode settins"
+	@git -C .. clone https://github.com/Mozzart88/21-c-debugger-vscode.git $(VS_DIR)
+	@rm -fr ../$(VS_DIR)/.git
+	@echo "VSCode settins INSTALLED."
+
+setscripts:
+	@echo "Installing scripts.."
+	@echo "\n# $(PROJ_NAME_U)" >> ~/${ZRC}
+	@echo $(ZRC_STR) >> ~/$(ZRC)
+	@echo "alias $(PROJ_NAME_L)_valg=\"bash $(MOZZ_DIR)/valg.sh\"" >> $(ZRC)
+	@echo "alias $(PROJ_NAME_L)_build=\"bash $(MOZZ_DIR)/build.sh\"" >> $(ZRC)
+	@echo "alias $(PROJ_NAME_L)_norm=\"bash $(MOZZ_DIR)/norm.sh\"" >> $(ZRC)
+	@echo "alias $(PROJ_NAME_L)_srcs=\"bash $(MOZZ_DIR)/fsrcs.sh\"" >> $(ZRC)
+	@echo "Scripts installation DONE."
+
+clonesubmod:
+	@echo "Cloning submodules.."
+	@git -C .. submodule add https://github.com/Mozzart88/Libft.git libft
+	@git -C ../libft submodule update --init
+	@echo "Submodules INSTALLED."
+
+rename:
+	@echo "Renaming.."
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../includes/header.h
+	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' ../includes/header.h
+	@mv ../includes/header.h ../$(PROJ_NAME_L).h
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../srcs/main.c
+	@sed -i '' 's/PROJ_NAME/$(PROJ_NAME_L)/g' .mozz/Makefile
+	@mv .mozz/Makefile ./Makefile-
+	@mv ./Makefile .mozz/Makefile
+	@mv ./Makefile- ./Makefile
+	@sed -i '' 's/42_21_C_template/$(PROJ_NAME_U)/g' ../README.md
+	@echo "Renaming DONE."
+
+gitcommit:
+	@echo "Stage changes.."
+	@git -C .. add .
+	@git -C .. commit -m "INITIAL COMMIT"
+	@git -C .. push --force
+
+mkauthor:
+ifdef u
+	@echo $(u) > ../author
+else ifdef user
+	@echo $(user) > ../author
+else
+	@echo ${USER} > ../author
 endif
-CFLAGS += -I . -I libft/ -I includes/
-CFS := -L libft/ -lft
 
-all: $(LIBFT) $(NAME)
+deinstall: 
+	@sed -i '' '/# $(PROJ_NAME_U)$$/,/^$$/ d' ~/.zshrc
+	@rm -rf $(WS_PATH)
 
-%.o: %.c $(CHEADERS)
-	$(CC) $(CFLAGS) -c -o $@ $<
+test: setscripts
 
-$(NAME): $(OBJS) $(LIBFTA)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(CFS)
-	
-$(LIBFT):
-	make -C libft debug=$(debug)
+.PHONY: err
 
-clean:
-	make -C libft/ clean
-	/bin/rm -f $(OBJS)
-
-fclean: clean
-	make -C libft/ fclean
-	/bin/rm -f $(NAME)
-
-re: fclean all
-
-.PHONY: clean libft all
+err:  
+	$(ERR)

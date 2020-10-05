@@ -4,13 +4,13 @@ Template repo for 42/21 school C-projects
 ## Install
 For simple instalation run this command
 ```bash
-make -C .mozz proj=PROJ_NAME [u|user=USER_NAME]
+make proj=PROJ_NAME [u|user=USER_NAME]
 ```
 Where `PROJ_NAME` will be subordinate everywhere as the name of the project, including for executable in main Makefile. And `USER_NAME` is name that will writed to `author` file, if not specified, than will enviroment `USER` will used.
 
 ## Uninstall
 ```bash
-make -C .mozz proj=PROJ_NAME
+make -C .mozz deinstall proj=PROJ_NAME
 ```
 
 ### Features

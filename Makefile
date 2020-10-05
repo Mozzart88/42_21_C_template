@@ -3,38 +3,65 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+         #
+#    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/04 15:27:16 by tvanessa          #+#    #+#              #
-#    Updated: 2020/01/12 14:57:29 by tvanessa         ###   ########.fr        #
+#    Updated: 2020/10/05 23:31:14 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-S = ./
-SS = $(S)main.c
-H = -I . -I libft
-NAME = PROJ_NAME
-CC = gcc
-GCF = -g3 -Wall -Wextra -Werror
-CF = -Wall -Wextra -Werror
-CL = -L libft/ -lft
-CI = -I . -I libft/
+debug := 0
 
-all: $(NAME)
+Fsrcs := fsrcs
+SS := $(shell cat $(Fsrcs))
+FH := fhdr
+CHEADERS := $(shell cat $(FH))
+OBJS := $(SS:.c=.o)
+MAIN := 	shell
 
-%.o: %.c libft.h
-	$(CC) $(GCF) $(H) -c -o $@ $<
 
-$(NAME): $(SS:.c=.o)
-	@$(CC) $(CF) $(H) -o $(NAME) $(SS:.c=.o) $(CI) $(CL)
-	@# ar rc $(NAME) $(SS:.c=.o)
+CC := clang
+GCF := -g3 -Wall -Wextra -Werror
+NAME := PROJ_NAME
+LIBFT := libft
+LIBFTA := libft/libft.a
+CFLAGS := -Wall -Wextra -Werror
+
+# Compiller selection
+ifdef gcc
+CC := gcc
+else ifdef clang
+CC := clang
+else ifdef cc
+CC := $(cc)
+endif
+
+# Debug mode
+ifeq ($(debug), 1)
+CFLAGS := $(GCF)
+endif
+CFLAGS += -I . -I libft/ -I includes/
+CFS := -L libft/ -lft
+
+all: $(LIBFT) $(NAME)
+
+%.o: %.c $(CHEADERS)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(NAME): $(OBJS) $(LIBFTA)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(CFS)
+	
+$(LIBFT):
+	make -C libft debug=$(debug)
 
 clean:
 	make -C libft/ clean
-	/bin/rm -f $(SS:.c=.o)
+	/bin/rm -f $(OBJS)
 
 fclean: clean
 	make -C libft/ fclean
 	/bin/rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: clean libft all

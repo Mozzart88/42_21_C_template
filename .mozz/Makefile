@@ -6,7 +6,7 @@
 #    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/09/15 10:37:25 by mozzart          ###   ########.fr        #
+#    Updated: 2020/10/05 23:34:28 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ setscripts:
 	@echo "alias $(PROJ_NAME_L)_valg=\"bash $(MOZZ_DIR)/valg.sh\"" >> $(ZRC)
 	@echo "alias $(PROJ_NAME_L)_build=\"bash $(MOZZ_DIR)/build.sh\"" >> $(ZRC)
 	@echo "alias $(PROJ_NAME_L)_norm=\"bash $(MOZZ_DIR)/norm.sh\"" >> $(ZRC)
+	@echo "alias $(PROJ_NAME_L)_srcs=\"bash $(MOZZ_DIR)/fsrcs.sh\"" >> $(ZRC)
 	@echo "Scripts installation DONE."
 
 clonesubmod:
@@ -56,10 +57,10 @@ clonesubmod:
 
 rename:
 	@echo "Renaming.."
-	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../header.h
-	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' ../header.h
-	@mv ../header.h ../$(PROJ_NAME_L).h
-	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../main.c
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../includes/header.h
+	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' ../includes/header.h
+	@mv ../includes/header.h ../$(PROJ_NAME_L).h
+	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ../srcs/main.c
 	@sed -i '' 's/PROJ_NAME/$(PROJ_NAME_L)/g' ../Makefile
 	@sed -i '' 's/42_21_C_template/$(PROJ_NAME_U)/g' ../README.md
 	@echo "Renaming DONE."

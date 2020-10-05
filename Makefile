@@ -6,7 +6,7 @@
 #    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/10/06 00:15:21 by mozzart          ###   ########.fr        #
+#    Updated: 2020/10/06 00:22:01 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ rename:
 	@echo "Renaming.."
 	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ./includes/header.h
 	@sed -i '' 's/HEADER/$(PROJ_NAME_U)/g' ./includes/header.h
-	@mv ./includes/header.h ./$(PROJ_NAME_L).h
+	@mv ./includes/header.h ./includes/$(PROJ_NAME_L).h
 	@sed -i '' 's/header/$(PROJ_NAME_L)/g' ./srcs/main.c
 	@sed -i '' 's/PROJ_NAME/$(PROJ_NAME_L)/g' $(MOZZ_DIR)/Makefile
 	@mv .mozz/Makefile ./Makefile-

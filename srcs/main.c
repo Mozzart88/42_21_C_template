@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tvanessa <tvanessa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 22:30:02 by tvanessa          #+#    #+#             */
-/*   Updated: 2020/01/11 22:31:17 by tvanessa         ###   ########.fr       */
+/*   Updated: 2020/10/06 00:39:08 by mozzart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		main(int ac, char *av)
+int		main(int ac, char **av)
 {
 	if (ac || av)
 		return (0);

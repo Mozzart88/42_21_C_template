@@ -6,7 +6,7 @@
 #    By: mozzart <mozzart@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/11 21:11:52 by tvanessa          #+#    #+#              #
-#    Updated: 2020/10/06 00:22:01 by mozzart          ###   ########.fr        #
+#    Updated: 2020/12/08 17:16:15 by mozzart          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ setscripts:
 clonesubmod:
 	@echo "Cloning submodules.."
 	@git submodule add https://github.com/Mozzart88/Libft.git libft
+	@git -C ./libft checkout latest
 	@git -C ./libft submodule update --init
 	@echo "Submodules INSTALLED."
 
